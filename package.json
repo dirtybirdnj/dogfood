@@ -1,0 +1,44 @@
+{
+  "name": "dogfood",
+  "version": "0.1.0",
+  "description": "Eat your own dogfood - Analyze your skills, find matching jobs, generate tailored applications",
+  "type": "module",
+  "bin": {
+    "dogfood": "./dist/dogfood.mjs"
+  },
+  "scripts": {
+    "start": "npm run build && node dist/dogfood.mjs",
+    "dev": "npm run build && node dist/dogfood.mjs",
+    "build": "node build.js",
+    "postinstall": "npm run build",
+    "test": "node --test src/**/*.test.js"
+  },
+  "keywords": [
+    "cli",
+    "tui",
+    "job-search",
+    "resume",
+    "skills-analysis",
+    "career"
+  ],
+  "author": "Matt Gilbert",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "conf": "^13.0.1",
+    "globby": "^14.0.2",
+    "ink": "^5.0.1",
+    "ink-select-input": "^6.0.0",
+    "ink-spinner": "^5.0.0",
+    "ink-text-input": "^6.0.0",
+    "react": "^18.3.1",
+    "yaml": "^2.4.5"
+  },
+  "devDependencies": {
+    "esbuild": "^0.27.1",
+    "ink-testing-library": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

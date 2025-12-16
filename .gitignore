@@ -1,0 +1,12 @@
+node_modules/
+.DS_Store
+*.log
+.env
+.env.local
+
+# Build output (regenerated on install)
+dist/
+
+# Local config (contains API keys)
+# Users should not commit their personal config
+# ~/.dogfood/ is outside repo anyway

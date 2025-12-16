@@ -1,0 +1,122 @@
+[
+  {
+    "title": "Senior Full Stack Developer",
+    "company": "BETA Technologies",
+    "location": "South Burlington, VT",
+    "url": "https://beta.team/careers",
+    "description": "Join our engineering team building software for electric aircraft. You'll work on React frontends, Node.js backends, and real-time data systems. Experience with aviation or IoT is a plus.",
+    "skills": ["react", "typescript", "node.js", "postgresql", "aws"],
+    "salary": "$130k-$160k",
+    "type": "full-time",
+    "remote": false,
+    "source": "company"
+  },
+  {
+    "title": "Frontend Engineer",
+    "company": "Dealer.com",
+    "location": "Burlington, VT",
+    "url": "https://dealer.com/careers",
+    "description": "Build automotive retail platforms used by thousands of dealerships. Modern React stack with GraphQL. Remote-friendly for VT residents.",
+    "skills": ["react", "javascript", "graphql", "css", "testing"],
+    "salary": "$110k-$140k",
+    "type": "full-time",
+    "remote": true,
+    "source": "linkedin"
+  },
+  {
+    "title": "AI/ML Engineer - Vibe Coding",
+    "company": "VibeCodeCareers",
+    "location": "Remote",
+    "url": "https://vibecodecareers.com/jobs/42",
+    "description": "Help developers build with AI. You'll create tools and workflows that leverage Claude, GPT, and other LLMs. Must be comfortable with prompt engineering and AI-assisted development.",
+    "skills": ["python", "typescript", "llm", "api-design", "claude"],
+    "salary": "$150k-$200k",
+    "type": "full-time",
+    "remote": true,
+    "source": "vibecodecareers"
+  },
+  {
+    "title": "Game Developer - Phaser/HTML5",
+    "company": "Indie Game Studio",
+    "location": "Remote",
+    "url": "https://indiegamestudio.com/jobs",
+    "description": "Create engaging browser-based games using Phaser 3. We ship weekly, iterate fast, and value creativity. Portfolio of game projects required.",
+    "skills": ["javascript", "phaser", "html5", "canvas", "game-design"],
+    "salary": "$90k-$120k",
+    "type": "full-time",
+    "remote": true,
+    "source": "gamedevjobs"
+  },
+  {
+    "title": "Full Stack Developer",
+    "company": "Vermont Tech Startup",
+    "location": "Burlington, VT",
+    "url": "https://vtechstartup.com/careers",
+    "description": "Early-stage startup building tools for sustainable agriculture. Small team, big impact. Equity included.",
+    "skills": ["react", "node.js", "postgresql", "docker"],
+    "salary": "$100k-$130k + equity",
+    "type": "full-time",
+    "remote": false,
+    "source": "craigslist"
+  },
+  {
+    "title": "Data Visualization Engineer",
+    "company": "DataViz Co",
+    "location": "Remote",
+    "url": "https://datavizco.com/jobs/dveng",
+    "description": "Build stunning interactive visualizations using D3.js and modern web tech. You'll work with large datasets and create dashboards that tell stories.",
+    "skills": ["d3.js", "javascript", "react", "data-visualization", "svg"],
+    "salary": "$120k-$150k",
+    "type": "full-time",
+    "remote": true,
+    "source": "indeed"
+  },
+  {
+    "title": "Node.js Backend Developer",
+    "company": "FinTech Startup",
+    "location": "Remote",
+    "url": "https://fintechstartup.com/careers",
+    "description": "Build secure, scalable APIs for financial applications. Experience with payment systems, compliance, and high-availability systems preferred.",
+    "skills": ["node.js", "typescript", "postgresql", "redis", "aws", "security"],
+    "salary": "$140k-$170k",
+    "type": "full-time",
+    "remote": true,
+    "source": "upwork"
+  },
+  {
+    "title": "GIS Developer",
+    "company": "Innovate!",
+    "location": "Remote",
+    "url": "https://innovate.com/careers/gis",
+    "description": "Work on geospatial applications for environmental monitoring. Experience with Leaflet, MapBox, or similar required. Government contracts.",
+    "skills": ["javascript", "leaflet", "mapbox", "postgresql", "postgis", "python"],
+    "salary": "$110k-$140k",
+    "type": "full-time",
+    "remote": true,
+    "source": "company"
+  },
+  {
+    "title": "DevOps Engineer",
+    "company": "CloudScale Inc",
+    "location": "Remote",
+    "url": "https://cloudscale.io/jobs",
+    "description": "Manage Kubernetes clusters, CI/CD pipelines, and infrastructure as code. We're a platform team supporting 50+ developers.",
+    "skills": ["kubernetes", "docker", "terraform", "aws", "github-actions", "linux"],
+    "salary": "$130k-$160k",
+    "type": "full-time",
+    "remote": true,
+    "source": "linkedin"
+  },
+  {
+    "title": "React Native Developer",
+    "company": "MobileFirst",
+    "location": "Remote",
+    "url": "https://mobilefirst.dev/careers",
+    "description": "Build cross-platform mobile apps for iOS and Android. We value clean code, testing, and user experience.",
+    "skills": ["react-native", "typescript", "ios", "android", "jest"],
+    "salary": "$115k-$145k",
+    "type": "contract",
+    "remote": true,
+    "source": "upwork"
+  }
+]
