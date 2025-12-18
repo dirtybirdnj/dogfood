@@ -145,11 +145,11 @@ export default function JobsScreen({ navigate, store }) {
 
         {importResult && (
           <Box flexDirection="column" marginBottom={1}>
-            <Text color="green">✓ Import complete</Text>
-            <Text color="gray">Added: {importResult.added}</Text>
-            <Text color="gray">Skipped (duplicates): {importResult.skipped}</Text>
+            <Text color="green">🦴 Woof! Import complete!</Text>
+            <Text color="gray">Fetched: {importResult.added} new jobs</Text>
+            <Text color="gray">Already in bowl: {importResult.skipped}</Text>
             {importResult.errors.length > 0 && (
-              <Text color="yellow">Errors: {importResult.errors.length}</Text>
+              <Text color="yellow">Dropped: {importResult.errors.length}</Text>
             )}
           </Box>
         )}
@@ -177,7 +177,13 @@ export default function JobsScreen({ navigate, store }) {
         </Text>
 
         {jobs.length === 0 ? (
-          <Text color="gray">No jobs imported yet.</Text>
+          <Box flexDirection="column">
+            <Text color="yellow">{`   /^ ^\\
+  / • • \\   Empty bowl!
+  V\\ ~ /V   No jobs to fetch yet.
+   / - \\
+     🦴`}</Text>
+          </Box>
         ) : (
           <SelectInput
             items={jobItems}

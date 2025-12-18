@@ -67,31 +67,43 @@ export default function App({ args }) {
 }
 
 function Header({ currentScreen }) {
-  const title = {
-    welcome: 'Welcome',
-    analyze: 'Analyze Repos',
-    skills: 'Skills Profile',
-    jobs: 'Job Board',
-    match: 'Job Matches',
-    generate: 'Generate Application',
-    settings: 'Settings',
-  }[currentScreen] || 'Dogfood';
+  const screenInfo = {
+    welcome: { icon: '🐾', title: 'Welcome' },
+    analyze: { icon: '🔍', title: 'Analyze Repos' },
+    skills: { icon: '📊', title: 'Skills Profile' },
+    jobs: { icon: '📋', title: 'Job Board' },
+    match: { icon: '🎯', title: 'Job Matches' },
+    generate: { icon: '📝', title: 'Generate Application' },
+    settings: { icon: '⚙️', title: 'Settings' },
+  }[currentScreen] || { icon: '🐾', title: 'Dogfood' };
 
   return (
     <Box borderStyle="round" borderColor="cyan" paddingX={2}>
-      <Text bold color="cyan">🦴 DOGFOOD</Text>
+      <Text bold color="yellow">🦴</Text>
+      <Text bold color="cyan"> DOGFOOD </Text>
+      <Text bold color="yellow">🦴</Text>
       <Text color="gray"> │ </Text>
-      <Text color="white">{title}</Text>
+      <Text>{screenInfo.icon} </Text>
+      <Text color="white">{screenInfo.title}</Text>
     </Box>
   );
 }
 
 function Footer() {
   return (
-    <Box marginTop={1}>
+    <Box marginTop={1} flexDirection="column">
       <Text color="gray" dimColor>
-        Ctrl+Q quit │ ? help │ Tab navigate
+        ·═══════════════════════════════════════════════════════════════════·
       </Text>
+      <Box>
+        <Text color="yellow">🦴 </Text>
+        <Text color="gray" dimColor>
+          Ctrl+Q quit │ ? help │ Tab navigate
+        </Text>
+        <Text color="gray" dimColor>                              </Text>
+        <Text color="gray" dimColor>v0.1.0 </Text>
+        <Text color="yellow">🦴</Text>
+      </Box>
     </Box>
   );
 }

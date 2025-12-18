@@ -9,6 +9,14 @@ import React from 'react';
 import { Box, Text } from 'ink';
 import SelectInput from 'ink-select-input';
 
+const DOG = `
+    /^ ^\\
+   / 0 0 \\
+   V\\ Y /V
+    / - \\
+   /|   |\\
+  (_|   |_)`;
+
 const LOGO = `
     ____                   ____                __
    / __ \\____  ____ _     / __/___  ____  ____/ /
@@ -18,7 +26,7 @@ const LOGO = `
             /____/
 `;
 
-const TAGLINE = 'Eat your own dogfood. Analyze skills. Land jobs.';
+const TAGLINE = '🦴 Eat your own dogfood. Analyze skills. Land jobs. 🦴';
 
 export default function WelcomeScreen({ navigate, store }) {
   const hasProfile = Object.keys(store.skills?.languages || {}).length > 0;
@@ -68,7 +76,10 @@ export default function WelcomeScreen({ navigate, store }) {
   return (
     <Box flexDirection="column">
       <Box marginBottom={1}>
-        <Text color="cyan">{LOGO}</Text>
+        <Box>
+          <Text color="yellow">{DOG}</Text>
+          <Text color="cyan">{LOGO}</Text>
+        </Box>
       </Box>
 
       <Box marginBottom={2}>
@@ -79,22 +90,22 @@ export default function WelcomeScreen({ navigate, store }) {
 
       <Box flexDirection="column" marginBottom={2}>
         <Text color="white" bold>
-          Quick Status:
+          🐾 Quick Status:
         </Text>
         <Box marginLeft={2} flexDirection="column">
           <Text color={hasProfile ? 'green' : 'yellow'}>
             {hasProfile
-              ? `✓ Skills profile loaded (${Object.keys(store.skills.languages).length} languages)`
-              : '○ No skills profile yet'}
+              ? `🦴 Skills profile loaded (${Object.keys(store.skills.languages).length} languages)`
+              : '○ No skills profile yet - time to fetch!'}
           </Text>
           <Text color={hasJobs ? 'green' : 'yellow'}>
             {hasJobs
-              ? `✓ ${store.jobs.length} jobs loaded`
-              : '○ No jobs imported'}
+              ? `🦴 ${store.jobs.length} jobs in the bowl`
+              : '○ No jobs imported - bowl is empty!'}
           </Text>
           <Text color={store.llm?.provider !== 'clipboard' ? 'green' : 'gray'}>
             {store.llm?.provider !== 'clipboard'
-              ? `✓ LLM: ${store.llm.provider}`
+              ? `🦴 LLM: ${store.llm.provider}`
               : '○ LLM: Clipboard mode'}
           </Text>
         </Box>

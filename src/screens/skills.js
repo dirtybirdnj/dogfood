@@ -37,13 +37,20 @@ export default function SkillsScreen({ navigate, store }) {
   if (!skills || Object.keys(skills.languages || {}).length === 0) {
     return (
       <Box flexDirection="column">
-        <Text color="yellow">No skills profile found.</Text>
-        <Text color="gray">Run analysis first to build your profile.</Text>
+        <Box marginBottom={1}>
+          <Text color="yellow">{`    /^ ^\\
+   / • • \\
+   V\\ ~ /V
+    / - \\
+      🦴`}</Text>
+        </Box>
+        <Text color="yellow">No skills in the bowl yet!</Text>
+        <Text color="gray">Run analysis to sniff out your skills.</Text>
         <Box marginTop={1}>
           <SelectInput
             items={[
-              { label: 'Analyze Repos', value: 'analyze' },
-              { label: 'Back to Menu', value: 'welcome' },
+              { label: '🔍 Analyze Repos', value: 'analyze' },
+              { label: '🐾 Back to Menu', value: 'welcome' },
             ]}
             onSelect={(item) => navigate(item.value)}
           />

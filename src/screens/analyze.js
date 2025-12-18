@@ -129,10 +129,12 @@ export default function AnalyzeScreen({ navigate, store, args }) {
   if (state === STATES.DISCOVERING) {
     return (
       <Box>
+        <Text color="yellow">🐕 </Text>
         <Text color="cyan">
           <Spinner type="dots" />
         </Text>
-        <Text> Discovering repositories in {scanPath}...</Text>
+        <Text> Sniffing for repositories in {scanPath}...</Text>
+        <Text color="yellow"> 🦴</Text>
       </Box>
     );
   }
@@ -140,10 +142,12 @@ export default function AnalyzeScreen({ navigate, store, args }) {
   if (state === STATES.ANALYZING) {
     return (
       <Box>
+        <Text color="yellow">🐕 </Text>
         <Text color="cyan">
           <Spinner type="dots" />
         </Text>
-        <Text> Analyzing {repos[currentIndex]?.name}...</Text>
+        <Text> Fetching {repos[currentIndex]?.name}...</Text>
+        <Text color="yellow"> 🦴</Text>
       </Box>
     );
   }
@@ -152,23 +156,28 @@ export default function AnalyzeScreen({ navigate, store, args }) {
     const included = analyzedRepos.filter((r) => !r.excluded);
     return (
       <Box flexDirection="column">
-        <Text color="green" bold>
-          ✓ Analysis Complete
-        </Text>
-        <Box marginY={1} flexDirection="column">
-          <Text>
-            Analyzed {analyzedRepos.length} repositories, included {included.length}
-          </Text>
-          {included.length > 0 && (
-            <Text color="gray">
-              Skills profile has been saved.
+        <Box marginBottom={1}>
+          <Text color="yellow">{`    /^ ^\\
+   / ◕ ◕ \\
+   V\\ ᴥ /V   `}</Text>
+          <Box flexDirection="column">
+            <Text color="green" bold>
+              Woof! Analysis Complete! 🦴
             </Text>
-          )}
+            <Text>
+              Sniffed out {analyzedRepos.length} repositories, kept {included.length} in the bowl!
+            </Text>
+            {included.length > 0 && (
+              <Text color="gray">
+                Skills profile has been saved. Good boy!
+              </Text>
+            )}
+          </Box>
         </Box>
         <SelectInput
           items={[
-            { label: 'View Skills Profile', value: 'skills' },
-            { label: 'Back to Menu', value: 'welcome' },
+            { label: '🦴 View Skills Profile', value: 'skills' },
+            { label: '🐾 Back to Menu', value: 'welcome' },
           ]}
           onSelect={(item) => navigate(item.value)}
         />
