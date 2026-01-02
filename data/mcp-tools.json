@@ -1,0 +1,200 @@
+{
+  "name": "dogfood",
+  "description": "Analyze code skills from local repositories, match jobs to your profile, and generate tailored application materials",
+  "version": "0.1.0",
+  "transport": "stdio",
+  "command": "node",
+  "args": ["dist/dogfood.mjs"],
+  "tools": [
+    {
+      "name": "dogfood_analyze",
+      "description": "Analyze git repositories to extract a skills profile. Scans for languages, frameworks, patterns, and development tools used in your code.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Directory containing git repositories to analyze. Defaults to current directory."
+          },
+          "save": {
+            "type": "boolean",
+            "description": "If true, saves the skills profile to ~/.dogfood/skills.json for later use"
+          }
+        }
+      },
+      "command": "analyze --json",
+      "examples": [
+        {
+          "description": "Analyze repos in ~/Code and save profile",
+          "args": { "path": "~/Code", "save": true },
+          "cli": "dogfood analyze --path ~/Code --json --save"
+        }
+      ]
+    },
+    {
+      "name": "dogfood_jobs_ingest",
+      "description": "Import job listings from a JSON file. Jobs are stored in ~/.dogfood/jobs.json for matching.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "description": "Path to JSON file containing job listings"
+          }
+        },
+        "required": ["file"]
+      },
+      "command": "jobs --ingest",
+      "examples": [
+        {
+          "description": "Import jobs from a file",
+          "args": { "file": "jobs.json" },
+          "cli": "dogfood jobs --ingest jobs.json"
+        }
+      ]
+    },
+    {
+      "name": "dogfood_jobs_list",
+      "description": "List all imported job listings with their IDs, titles, companies, and required skills.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "command": "jobs --list --json",
+      "examples": [
+        {
+          "description": "List all jobs",
+          "cli": "dogfood jobs --list --json"
+        }
+      ]
+    },
+    {
+      "name": "dogfood_skills",
+      "description": "View the analyzed skills profile including languages, frameworks, patterns, and tools detected from your code.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "detailed": {
+            "type": "boolean",
+            "description": "If true, returns full details. Otherwise returns summary."
+          }
+        }
+      },
+      "command": "skills --json",
+      "examples": [
+        {
+          "description": "View skills summary",
+          "cli": "dogfood skills --json"
+        },
+        {
+          "description": "View detailed skills",
+          "cli": "dogfood skills --list --json"
+        }
+      ]
+    },
+    {
+      "name": "dogfood_match",
+      "description": "Match imported jobs against your skills profile. Returns jobs categorized as 'want' (good match + preferences), 'qualified' (skills match), or 'stretch' (partial match).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "command": "match --json",
+      "returns": {
+        "type": "object",
+        "properties": {
+          "categories": {
+            "type": "object",
+            "properties": {
+              "want": { "type": "array", "description": "Jobs matching skills AND preferences" },
+              "qualified": { "type": "array", "description": "Jobs matching skills" },
+              "stretch": { "type": "array", "description": "Jobs with partial skill match" }
+            }
+          }
+        }
+      },
+      "examples": [
+        {
+          "description": "Match jobs to profile",
+          "cli": "dogfood match --json"
+        }
+      ]
+    },
+    {
+      "name": "dogfood_generate",
+      "description": "Generate tailored resume and/or cover letter prompts for a specific job. The prompts can be used with any LLM to create application materials.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "job": {
+            "type": "string",
+            "description": "Job ID or partial match string (e.g., company name or title)"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["resume", "cover", "both"],
+            "description": "Type of prompt to generate. Defaults to 'both'."
+          }
+        },
+        "required": ["job"]
+      },
+      "command": "generate --json",
+      "examples": [
+        {
+          "description": "Generate both prompts for a job",
+          "args": { "job": "beta-senior" },
+          "cli": "dogfood generate --job beta-senior --json"
+        },
+        {
+          "description": "Generate only resume prompt",
+          "args": { "job": "BETA Technologies", "type": "resume" },
+          "cli": "dogfood generate --job 'BETA Technologies' --type resume --json"
+        }
+      ]
+    }
+  ],
+  "workflow": {
+    "description": "Typical workflow for using dogfood",
+    "steps": [
+      {
+        "step": 1,
+        "action": "Analyze your code repositories",
+        "tool": "dogfood_analyze",
+        "args": { "path": "~/Code", "save": true }
+      },
+      {
+        "step": 2,
+        "action": "Import job listings",
+        "tool": "dogfood_jobs_ingest",
+        "args": { "file": "jobs.json" }
+      },
+      {
+        "step": 3,
+        "action": "Match jobs to your skills",
+        "tool": "dogfood_match"
+      },
+      {
+        "step": 4,
+        "action": "Generate application materials for best matches",
+        "tool": "dogfood_generate",
+        "args": { "job": "<job_id_from_match>", "type": "both" }
+      }
+    ]
+  },
+  "jobSchema": {
+    "description": "Schema for job JSON files to ingest",
+    "type": "object",
+    "required": ["title", "company"],
+    "properties": {
+      "title": { "type": "string", "description": "Job title" },
+      "company": { "type": "string", "description": "Company name" },
+      "url": { "type": "string", "description": "Link to job posting" },
+      "description": { "type": "string", "description": "Full job description" },
+      "skills": { "type": "array", "items": { "type": "string" }, "description": "Required skills" },
+      "location": { "type": "string", "description": "Job location" },
+      "salary": { "type": "string", "description": "Salary range" },
+      "remote": { "type": "boolean", "description": "Is remote work available" },
+      "type": { "type": "string", "description": "full-time, contract, etc." }
+    }
+  }
+}

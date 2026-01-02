@@ -1,0 +1,46 @@
+{
+  "description": "Recommended Ollama models for dogfood agent pipeline",
+  "models": {
+    "reasoning": {
+      "primary": "llama3.2",
+      "alternatives": ["qwen2.5", "mistral", "gemma2"],
+      "purpose": "Job matching, prioritization, career strategy",
+      "context_window": 128000,
+      "pull_command": "ollama pull llama3.2"
+    },
+    "coding": {
+      "primary": "qwen2.5-coder",
+      "alternatives": ["codellama", "deepseek-coder"],
+      "purpose": "Code analysis, technical skill extraction",
+      "context_window": 32000,
+      "pull_command": "ollama pull qwen2.5-coder"
+    },
+    "writing": {
+      "primary": "llama3.2",
+      "alternatives": ["mistral", "neural-chat"],
+      "purpose": "Resume writing, cover letters, email drafts",
+      "context_window": 128000,
+      "pull_command": "ollama pull llama3.2"
+    },
+    "embedding": {
+      "primary": "nomic-embed-text",
+      "alternatives": ["mxbai-embed-large"],
+      "purpose": "RAG for job descriptions, semantic search",
+      "pull_command": "ollama pull nomic-embed-text"
+    },
+    "fast": {
+      "primary": "llama3.2:1b",
+      "alternatives": ["phi3:mini", "gemma2:2b"],
+      "purpose": "Quick classification, simple extraction",
+      "pull_command": "ollama pull llama3.2:1b"
+    }
+  },
+  "setup_commands": [
+    "brew install ollama",
+    "ollama serve",
+    "ollama pull llama3.2",
+    "ollama pull qwen2.5-coder",
+    "ollama pull nomic-embed-text"
+  ],
+  "test_command": "curl http://localhost:11434/api/tags"
+}

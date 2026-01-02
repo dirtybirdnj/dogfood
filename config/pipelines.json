@@ -1,0 +1,194 @@
+{
+  "description": "Pre-configured agent pipelines for job search automation",
+
+  "pipelines": {
+    "local-only": {
+      "name": "Privacy-First Local Pipeline",
+      "description": "All processing happens locally. No data sent to cloud APIs.",
+      "models": {
+        "analyzer": "ollama/llama3.2",
+        "matcher": "ollama/llama3.2",
+        "generator": "ollama/qwen2.5-coder",
+        "reviewer": "ollama/llama3.2"
+      },
+      "steps": [
+        {
+          "name": "analyze",
+          "command": "dogfood analyze --path ~/Code --json --save --quiet",
+          "agent": "analyzer",
+          "purpose": "Extract skills from local repositories"
+        },
+        {
+          "name": "match",
+          "command": "dogfood match --json",
+          "agent": "matcher",
+          "purpose": "Match jobs against skills profile"
+        },
+        {
+          "name": "prioritize",
+          "agent": "matcher",
+          "prompt": "Given these job matches, rank top 5 by: 1) skill alignment, 2) growth potential, 3) compensation. Explain briefly.",
+          "input": "{{match.output}}"
+        },
+        {
+          "name": "generate",
+          "command": "dogfood generate --job {{prioritize.top_job}} --json",
+          "agent": "generator",
+          "purpose": "Generate application prompts"
+        },
+        {
+          "name": "refine",
+          "agent": "reviewer",
+          "prompt": "Improve this resume to be more compelling. Keep facts accurate but make it more engaging.",
+          "input": "{{generate.prompts.resume}}"
+        }
+      ]
+    },
+
+    "hybrid": {
+      "name": "Hybrid Local+Cloud Pipeline",
+      "description": "Analyze locally for privacy, use cloud for high-quality generation.",
+      "models": {
+        "analyzer": "ollama/llama3.2",
+        "matcher": "ollama/llama3.2",
+        "strategist": "anthropic/claude-sonnet",
+        "writer": "anthropic/claude-sonnet"
+      },
+      "steps": [
+        {
+          "name": "analyze",
+          "command": "dogfood analyze --path ~/Code --json --save --quiet",
+          "agent": "analyzer"
+        },
+        {
+          "name": "match",
+          "command": "dogfood match --json",
+          "agent": "matcher"
+        },
+        {
+          "name": "strategize",
+          "agent": "strategist",
+          "prompt": "You are a senior tech career coach. Analyze these job matches and create a prioritized application strategy. Consider: role growth, company trajectory, skill development, compensation.",
+          "input": "{{match.output}}"
+        },
+        {
+          "name": "generate",
+          "command": "dogfood generate --job {{strategize.top_job}} --json",
+          "agent": "writer"
+        },
+        {
+          "name": "polish",
+          "agent": "writer",
+          "prompt": "Transform this into a polished, ATS-optimized resume. Maintain accuracy but maximize impact.",
+          "input": "{{generate.prompts.resume}}"
+        }
+      ]
+    },
+
+    "research-heavy": {
+      "name": "Deep Research Pipeline",
+      "description": "Extensive company research before application generation.",
+      "models": {
+        "researcher": "anthropic/claude-sonnet",
+        "analyzer": "ollama/llama3.2",
+        "writer": "anthropic/claude-opus"
+      },
+      "steps": [
+        {
+          "name": "match",
+          "command": "dogfood match --json",
+          "agent": "analyzer"
+        },
+        {
+          "name": "research",
+          "agent": "researcher",
+          "tools": ["web_search", "perplexity"],
+          "prompt": "Research these companies: {{match.companies}}. Find: tech stack, culture, recent news, growth trajectory, glassdoor reviews.",
+          "parallel": true
+        },
+        {
+          "name": "synthesize",
+          "agent": "researcher",
+          "prompt": "Combine job requirements with company research. Identify unique angles for each application.",
+          "input": "{{match.output}}, {{research.output}}"
+        },
+        {
+          "name": "generate",
+          "command": "dogfood generate --job {{synthesize.top_job}} --json",
+          "agent": "writer"
+        },
+        {
+          "name": "personalize",
+          "agent": "writer",
+          "prompt": "Create a deeply personalized application using company research. Reference specific company initiatives, values, or projects.",
+          "input": "{{generate.prompts}}, {{research.{{synthesize.top_job}}}}"
+        }
+      ]
+    },
+
+    "batch": {
+      "name": "Batch Application Pipeline",
+      "description": "Generate applications for multiple jobs in parallel.",
+      "models": {
+        "analyzer": "ollama/llama3.2",
+        "writer": "anthropic/claude-sonnet"
+      },
+      "steps": [
+        {
+          "name": "match",
+          "command": "dogfood match --json",
+          "agent": "analyzer"
+        },
+        {
+          "name": "select",
+          "agent": "analyzer",
+          "prompt": "Select the top 5 jobs to apply to. Return job IDs only.",
+          "input": "{{match.output}}"
+        },
+        {
+          "name": "generate_all",
+          "parallel": true,
+          "for_each": "{{select.job_ids}}",
+          "command": "dogfood generate --job {{item}} --json",
+          "agent": "writer"
+        },
+        {
+          "name": "refine_all",
+          "parallel": true,
+          "for_each": "{{generate_all.outputs}}",
+          "agent": "writer",
+          "prompt": "Polish this application material.",
+          "input": "{{item}}"
+        }
+      ]
+    }
+  },
+
+  "agent_roles": {
+    "researcher": {
+      "description": "Finds and extracts job information from various sources",
+      "capabilities": ["web_search", "scraping", "api_calls"],
+      "recommended_models": ["gpt-4o", "claude-sonnet", "perplexity"]
+    },
+    "analyzer": {
+      "description": "Evaluates skills, matches jobs, identifies gaps",
+      "capabilities": ["dogfood_cli", "json_parsing"],
+      "recommended_models": ["llama3.2", "qwen2.5", "claude-haiku"]
+    },
+    "strategist": {
+      "description": "Prioritizes opportunities, plans application approach",
+      "capabilities": ["reasoning", "planning"],
+      "recommended_models": ["claude-opus", "gpt-4o", "llama3.2"]
+    },
+    "writer": {
+      "description": "Creates compelling resumes, cover letters, emails",
+      "capabilities": ["creative_writing", "formatting"],
+      "recommended_models": ["claude-sonnet", "gpt-4o", "llama3.2"]
+    },
+    "reviewer": {
+      "description": "Quality checks and improves generated content",
+      "capabilities": ["editing", "fact_checking"],
+      "recommended_models": ["claude-opus", "gpt-4o"]
+    }
+  }
+}
